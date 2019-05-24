@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 String[] split = output.split("\n\n"); // String array, each element is text between dots
                 String beforeNewLine = split[0];
                 // exact spot to get each string.
-                // enter(beforeNewLine);
+                // enter(beforeNewLine); a
                 output = output.substring(output.indexOf("\n\n") + 1);
                 output = output.trim();
             }
