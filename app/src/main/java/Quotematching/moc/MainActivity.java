@@ -21,11 +21,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button test;
     TextView Text;
+    private Tries tries;
+    public static final int Quotes = 5;
+    // keeps track of quotes stored.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        tries = new Tries();
         test = (Button) findViewById(R.id.test);
         Text = (TextView) findViewById(R.id.Text);
         test.setOnClickListener(this);
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void onClick(View v) {
+        int i;
         if (v == (Button) findViewById(R.id.test)) {
             String store = " ";
 
@@ -49,9 +53,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 // store = "oops";
                 ex.printStackTrace();
             }
-            String output = store.substring(0, store.indexOf("\n\n"));
-            Text.setText(output);
+            String output = store;
+            for (i = 0; i < Quotes; i++)
+            {
+                String[] split = output.split("\n\n"); // String array, each element is text between dots
+                String beforeNewLine = split[0];
+                // exact spot to get each string.
+                // enter(beforeNewLine);
+                output = output.substring(output.indexOf("\n\n") + 1);
+                output = output.trim();
+            }
         }
-}
-
     }
+
+   /* public void enter(String s){
+        int i;
+        // s += ' ';
+        s = s.replace("\n", "");
+        s = s.replace("―", "");
+        s = s.replace(".", "");
+        s = s.replace("”", "");
+        s = s.replace("“", "");
+        int x = s.length();
+        for (i = 0; x > 0; x--){
+            String[] split = s.split(" "); // String array, each element is text between dots
+            String beforeNewLine = split[0];
+            tries.insert(beforeNewLine);
+            Text.setText(beforeNewLine);
+            s = s.substring(s.indexOf(" ") + 1);
+            s = s.trim();
+        }
+    } */
+
+
+}
