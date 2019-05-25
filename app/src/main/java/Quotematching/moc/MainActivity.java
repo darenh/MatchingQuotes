@@ -65,7 +65,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             output = output.replace(";", "");
             output = output.replace("'", "");
             output = output.replace("-", "");
+            output = output.replace(":", "");
             int flag = 0;
+            output = output.toLowerCase();
             String s = Tries.buildTrie(output);
             Text.setText(s);
            /* while (output.length() > 0){
