@@ -16,11 +16,14 @@ public class Tries extends AppCompatActivity {
             //System.out.println(beforeNewLine);
             if (flag > 1)
             {
-                temp.subTrie = new TrieNode();
+                if (temp.subTrie == null)
+                {
+                    temp.subTrie = new TrieNode();
+                }
                 Trie.insertSub(temp.subTrie, beforeNewLine); // inserting subtrie
+                Trie.print(temp.subTrie, buffer,0);
             }
             temp = Trie.insert(beforeNewLine, 0);
-            Trie.print(temp.subTrie, buffer,0);
             // inserting regular trie
             flag++;
             output = output.substring(output.indexOf(" ") + 1);
@@ -60,14 +63,14 @@ class Trie {
              {
                  System.out.println(buffer);
              }
-             buffer [k + 1] = '\0';
+             buffer [k + 1] = 0;
              for (int i = 0; i < 26; i++)
              {
                  c = (char) ('a' + i);
                  buffer[k] = c;
                  print(temp.trieNodes[i], buffer, k + 1);
              }
-             buffer[k] = '\0';
+             buffer[k] = 0;
          }
 
     public static TrieNode insert(final String key, int flag){
