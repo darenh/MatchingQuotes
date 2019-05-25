@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 public class Tries extends AppCompatActivity {
     public static String buildTrie(String output) {
         int flag = 0;
+        char buffer[] = new char[30];
         TrieNode root = new TrieNode();
         TrieNode temp = null;
         String beforeNewLine = null;
@@ -13,12 +14,15 @@ public class Tries extends AppCompatActivity {
             String[] split = output.split(" "); // String array, each element is text between dots
             beforeNewLine = split[0];
             //System.out.println(beforeNewLine);
-            if (temp != null)
+            if (flag > 1)
             {
-                Trie.insertSub(temp, beforeNewLine); // inserting subtrie
+                temp.subTrie = new TrieNode();
+                Trie.insertSub(temp.subTrie, beforeNewLine); // inserting subtrie
             }
-            temp = Trie.insert(beforeNewLine, 0); // inserting regular trie
-            flag = 1;
+            temp = Trie.insert(beforeNewLine, 0);
+            Trie.print(temp.subTrie, buffer,0);
+            // inserting regular trie
+            flag++;
             output = output.substring(output.indexOf(" ") + 1);
             output = output.trim();
             if (output.charAt(0) == '|') {
@@ -45,6 +49,26 @@ class Trie {
             }
             return current.end;
          }
+         public static void print(TrieNode temp, char[] buffer, int k)
+         {
+             char c;
+             if (temp == null)
+             {
+                 return;
+             }
+             if (temp.end > 0)
+             {
+                 System.out.println(buffer);
+             }
+             buffer [k + 1] = '\0';
+             for (int i = 0; i < 26; i++)
+             {
+                 c = (char) ('a' + i);
+                 buffer[k] = c;
+                 print(temp.trieNodes[i], buffer, k + 1);
+             }
+             buffer[k] = '\0';
+         }
 
     public static TrieNode insert(final String key, int flag){
         TrieNode current = root;
@@ -52,7 +76,7 @@ class Trie {
         int i;
         for (i = 0; i < len; i++)
         {
-            System.out.println(key.charAt(i));
+            //System.out.println(key.charAt(i));
             if (current.trieNodes[key.charAt(i) - 'a'] == null)
             {
                 current.trieNodes[key.charAt(i) - 'a'] = new TrieNode();
@@ -64,20 +88,21 @@ class Trie {
     }
 
     public static void insertSub(TrieNode temp, final String key){
-        TrieNode current = temp.subTrie;
+        TrieNode current = temp;
         //
+        //System.out.println(key);
         int len = key.length();
         int i;
         for (i = 0; i < len; i++)
         {
-            System.out.println(key.charAt(i));
-            if (temp.trieNodes[key.charAt(i) - 'a'] == null)
+            //System.out.println(key.charAt(i));
+            if (current.trieNodes[key.charAt(i) - 'a'] == null)
             {
-                temp.trieNodes[key.charAt(i) - 'a'] = new TrieNode();
+                current.trieNodes[key.charAt(i) - 'a'] = new TrieNode();
             }
-            temp = temp.next(key.charAt(i));
+            current = current.next(key.charAt(i));
         }
-        temp.end++;
+        current.end++;
     }
 
 }
@@ -85,7 +110,7 @@ class Trie {
 class TrieNode {
     int end = 0;
     final TrieNode[] trieNodes = new TrieNode[26];
-    final TrieNode[] subTrie = new TrieNode[26];
+    TrieNode subTrie;
     public TrieNode next(final char c)
     {
         return trieNodes[c - 'a'];
