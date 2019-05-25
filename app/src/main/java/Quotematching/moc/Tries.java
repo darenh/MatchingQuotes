@@ -2,6 +2,8 @@ package Quotematching.moc;
 
 import android.support.v7.app.AppCompatActivity;
 
+import java.util.Arrays;
+
 
 public class Tries extends AppCompatActivity {
     public static String buildTrie(String output) {
@@ -61,7 +63,8 @@ class Trie {
              }
              if (temp.end > 0)
              {
-                 System.out.println(buffer);
+                 char[] str = Arrays.copyOf(buffer, k);
+                 System.out.println(str);
              }
              buffer [k + 1] = 0;
              for (int i = 0; i < 26; i++)
