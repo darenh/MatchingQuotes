@@ -65,6 +65,7 @@ class Trie {
 
     public static void insertSub(TrieNode temp, final String key){
         TrieNode current = temp.subTrie;
+        //
         int len = key.length();
         int i;
         for (i = 0; i < len; i++)
