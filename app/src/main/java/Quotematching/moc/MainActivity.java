@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
@@ -49,20 +50,37 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 text.read(buffer);
                 text.close();
                 store = new String(buffer);
+                Text.setText(store);
             } catch (IOException ex) {
                 // store = "oops";
                 ex.printStackTrace();
             }
             String output = store;
-            for (i = 0; i < Quotes; i++)
-            {
-                String[] split = output.split("\n\n"); // String array, each element is text between dots
+            output = output.replace("\n", "");
+            output = output.replace("―", "");
+            output = output.replace(".", "");
+            output = output.replace("”", "");
+            output = output.replace("“", " ");
+            output = output.replace(",", "");
+            output = output.replace(";", "");
+            output = output.replace("'", "");
+            output = output.replace("-", "");
+            int flag = 0;
+            String s = Tries.buildTrie(output);
+            Text.setText(s);
+           /* while (output.length() > 0){
+                String[] split = output.split(" "); // String array, each element is text between dots
                 String beforeNewLine = split[0];
-                // exact spot to get each string.
-                // enter(beforeNewLine); a
-                output = output.substring(output.indexOf("\n\n") + 1);
+                System.out.println(beforeNewLine);
+                Tries.insert(beforeNewLine, flag);
+                flag = 1;
+                output = output.substring(output.indexOf(" ") + 1);
                 output = output.trim();
-            }
+                if (output.charAt(0) == '|')
+                {
+                    break;
+                }
+            } */
         }
     }
 
@@ -84,6 +102,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             s = s.trim();
         }
     } */
-
 
 }
