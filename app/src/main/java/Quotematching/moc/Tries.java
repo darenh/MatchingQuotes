@@ -3,12 +3,18 @@ package Quotematching.moc;
 import android.support.v7.app.AppCompatActivity;
 
 import java.util.Arrays;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Tries extends AppCompatActivity {
-    public static String buildTrie(String output) {
+    public static String buildTrie(String output, String z) {
         int flag = 0;
+        int i;
         char buffer[] = new char[30];
+        char st[] = new char[30];
+        String tmp;
+        String total = "";
+        TrieNode end = null;
         TrieNode root = new TrieNode();
         TrieNode temp = null;
         String beforeNewLine = null;
@@ -23,37 +29,94 @@ public class Tries extends AppCompatActivity {
                     temp.subTrie = new TrieNode();
                 }
                 Trie.insertSub(temp.subTrie, beforeNewLine); // inserting subtrie
-                Trie.print(temp.subTrie, buffer,0);
             }
             temp = Trie.insert(beforeNewLine, 0);
             // inserting regular trie
             flag++;
             output = output.substring(output.indexOf(" ") + 1);
             output = output.trim();
+            // | in quotes file ends it.
             if (output.charAt(0) == '|') {
                 break;
             }
         }
-        if (Trie.query("infinitea") == 0)
+        char m[] = new char[30];
+        tmp = z;
+        String original = tmp;
+        for (i = 0; i < 20; i++)
         {
-            System.out.println("Hooray!!!");
+            end = Trie.query(tmp);
+            if (end == null)
+            {
+                return total;
+            }
+            tmp = Trie.freq(end.subTrie, m);
+            total = total + " " + tmp;
+            //System.out.println(total);
+
         }
-        return beforeNewLine;
+        // System.out.println(Trie.freq(end.subTrie, m));
+        // Trie.print(end.subTrie, buffer,0);
+
+        return original + total;
     }
 }
 class Trie {
+        static int flag1 = 1;
         static final TrieNode root = new TrieNode();
-         public static int query(final String s){
+
+        public static TrieNode query(String s){
             TrieNode current = root;
+            //System.out.println(s);
             for (int i = 0; i < s.length(); i++)
             {
                 if (current == null || current.next(s.charAt(i)) == null){
-                    return 0;
+                    return null;
                 }
                 current = current.next(s.charAt(i));
             }
-            return current.end;
+            return current;
          }
+         static String s = "";
+
+        public static String freq(TrieNode temp, char[] st)
+         {
+             flag1 = 1;
+             freqHelper(temp, st, 0);
+             String m = "" + s;
+             if (m == "")
+             {
+                 System.out.println("ooh");
+             }
+             System.out.println(m);
+             s= "";
+             return m;
+         }
+
+         public static void freqHelper(TrieNode temp, char[] st, int k)
+         {
+             int rand = ThreadLocalRandom.current().nextInt(0,4);
+                 char c;
+                 if (temp == null)
+                 {
+                     return;
+                 }
+                 if (temp.end > 0 && flag1 == 1 && rand % 2 == 0)
+                 {
+                     char[] str = Arrays.copyOf(st, k);
+                     flag1 = 0; // can maybe get a different str with this being random.
+                     s = String.valueOf(str);
+                     return;
+                 }
+                 st[k + 1] = 0;
+                 for (int i = 0; i < 26; i++)
+                 {
+                     c = (char) ('a' + i);
+                     st[k] = c;
+                     freqHelper(temp.trieNodes[i], st, k + 1);
+                 }
+                 st[k] = 0;
+             }
          public static void print(TrieNode temp, char[] buffer, int k)
          {
              char c;
