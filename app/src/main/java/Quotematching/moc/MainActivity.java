@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import org.w3c.dom.Node;
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     Button test;
     TextView Text;
+    EditText Type1;
     private Tries tries;
     public static final int Quotes = 5;
     // keeps track of quotes stored.
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tries = new Tries();
         test = (Button) findViewById(R.id.test);
         Text = (TextView) findViewById(R.id.Text);
+        Type1 = (EditText) findViewById(R.id.editText);
         test.setOnClickListener(this);
 
 
@@ -42,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int i;
         if (v == (Button) findViewById(R.id.test)) {
             String store = " ";
+            String x = Type1.getText().toString();
 
             try {
                 InputStream text = getAssets().open("Quotes.txt");
@@ -56,53 +60,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 ex.printStackTrace();
             }
             String output = store;
-            output = output.replace("\n", "");
-            output = output.replace("―", "");
-            output = output.replace(".", "");
+            output = output.replace("\n", " ");
+            output = output.replace("―", " ");
+            output = output.replace(".", ". ");
             output = output.replace("”", "");
             output = output.replace("“", " ");
-            output = output.replace(",", "");
-            output = output.replace(";", "");
+            output = output.replace(",", " ");
+            output = output.replace(";", " ");
             output = output.replace("'", "");
-            output = output.replace("-", "");
-            output = output.replace(":", "");
+            output = output.replace("-", " ");
+            output = output.replace(":", " ");
+            output = output.replace("\n", " ");
+            output = output.replace("’", "");
+            output = output.replace("!", ". ");
+            output = output.replace("‘", "");
+            output = output.replace("–", " ");
+            output = output.replace("?", ". ");
             int flag = 0;
             output = output.toLowerCase();
-            String s = Tries.buildTrie(output);
+            String s = Tries.buildTrie(output, x);
             Text.setText(s);
-           /* while (output.length() > 0){
-                String[] split = output.split(" "); // String array, each element is text between dots
-                String beforeNewLine = split[0];
-                System.out.println(beforeNewLine);
-                Tries.insert(beforeNewLine, flag);
-                flag = 1;
-                output = output.substring(output.indexOf(" ") + 1);
-                output = output.trim();
-                if (output.charAt(0) == '|')
-                {
-                    break;
-                }
-            } */
         }
     }
 
-   /* public void enter(String s){
-        int i;
-        // s += ' ';
-        s = s.replace("\n", "");
-        s = s.replace("―", "");
-        s = s.replace(".", "");
-        s = s.replace("”", "");
-        s = s.replace("“", "");
-        int x = s.length();
-        for (i = 0; x > 0; x--){
-            String[] split = s.split(" "); // String array, each element is text between dots
-            String beforeNewLine = split[0];
-            tries.insert(beforeNewLine);
-            Text.setText(beforeNewLine);
-            s = s.substring(s.indexOf(" ") + 1);
-            s = s.trim();
-        }
-    } */
 
 }
