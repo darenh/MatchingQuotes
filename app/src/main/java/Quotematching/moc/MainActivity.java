@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             output = output.replace("?", ". ");
             int flag = 0;
             output = output.toLowerCase();
-            String s = Tries.buildTrie(output, x);
+            String s = Tries.makeTrie(output, x);
             Text.setText(s);
         }
     }
