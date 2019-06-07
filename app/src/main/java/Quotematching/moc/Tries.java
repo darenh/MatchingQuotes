@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 
 public class Tries extends AppCompatActivity {
-    public static String buildTrie(String output, String z) {
+    public static String makeTrie(String output, String z) {
         int flag = 0;
         int flag2 = 2;
         int i;

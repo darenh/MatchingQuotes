@@ -25,8 +25,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView Text;
     EditText Type1;
     private Tries tries;
-    public static final int Quotes = 5;
-    // keeps track of quotes stored.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
